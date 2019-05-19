@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.dulceprime.antitheft.MainActivity">
+    <item
+        android:id="@+id/action_modify_pin"
+        android:orderInCategory="100"
+        android:title="Modify PIN"
+        app:showAsAction="never" />
+</menu>
