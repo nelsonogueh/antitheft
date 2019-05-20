@@ -142,7 +142,7 @@ public class Background_Service extends Service {
                             //do your stuff here
 //                            Log.d("ECHO ", "SERVICE RUNNING");
 
-                            Toast.makeText(getApplicationContext(), "BOOT COMPLETED", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "BOOT COMPLETED", Toast.LENGTH_SHORT).show();
 
                             if (prefManager.isProtected()) {
 //                                Log.d("PROTECTION ", "DEVICE PROTECTED");
@@ -165,72 +165,62 @@ public class Background_Service extends Service {
                                     }
 
 
-                                    // FROM HERE
-                                    if (!((dbSerialNumber1.trim().isEmpty()) || (dbSerialNumber2.trim().isEmpty()))) {
-                                        // BOTH SIMS WERE PRESENT AT PROTECTION
+                                    // MAIN LOGIC FROM HERE
 
-
-                                        isBothSimsPresentAtProtection = true;
-                                        if (!((dbSerialNumber1.equalsIgnoreCase(getDeviceSerialNumber1())) || (dbSerialNumber1.equalsIgnoreCase(getDeviceSerialNumber2())))) {
-                                            // SIM 1 IS REMOVED
-                                            isSim1Removed = true;
-                                        } else {
-                                            isSim1Removed = false;
-                                        }
-
-
-                                        if (!((dbSerialNumber2.equalsIgnoreCase(getDeviceSerialNumber2())) || (dbSerialNumber2.equalsIgnoreCase(getDeviceSerialNumber1())))) {
-                                            // SIM 1 IS REMOVED
-                                            isSim2Removed = true;
-                                        } else {
-                                            isSim2Removed = false;
-                                        }
-
-                                        if (isBothSimsPresentAtProtection && (isSim1Removed && isSim2Removed)) {
-                                            // If both sims present at protection and one of them is removed at check, submit report
-                                            submitAReport = true;
-                                        }
+                                    if (!(dbSerialNumber1.equalsIgnoreCase(getDeviceSerialNumber1()))) {
+                                        // SIM 1 IS REMOVED
+                                        submitAReport = true;
                                     } else {
-                                        // One or both sims were not present at protection
-                                        if (dbSerialNumber1.isEmpty() && dbSerialNumber2.isEmpty()) {
-                                            // Both slots are empty at protection
-                                            if (!(getDeviceSerialNumber1().isEmpty()) && (getDeviceSerialNumber2().isEmpty())) {
-                                                // Both sim empty at protection, but sim currently detected
-                                                submitAReport = true;
-                                            }
-                                        }
+                                        submitAReport = false;
+                                    }
 
-
-                                        if (dbSerialNumber1.isEmpty()) {
-                                            // Slot 1 empty at protection
-                                            if (!((dbSerialNumber2.equalsIgnoreCase(getDeviceSerialNumber1())) || (dbSerialNumber2.equalsIgnoreCase(getDeviceSerialNumber2())))) {
-                                                // The sim 2 that was present at protection is not found on the device
-                                                submitAReport = true;
-                                            }
-                                        }
-
-                                        if (dbSerialNumber2.isEmpty()) {
-                                            // Slot 2 empty at protection
-                                            if (!((dbSerialNumber1.equalsIgnoreCase(getDeviceSerialNumber1())) || (dbSerialNumber1.equalsIgnoreCase(getDeviceSerialNumber2())))) {
-                                                // The sim 1 that was present at protection is not found on the device
-                                                submitAReport = true;
-                                            }
-                                        }
+                                    if (!(dbSerialNumber2.equalsIgnoreCase(getDeviceSerialNumber2()))) {
+                                        // SIM 1 IS REMOVED
+                                        submitAReport = true;
+                                    } else {
+                                        submitAReport = false;
                                     }
 
                                     // TO HERE
-                                    if (submitAReport) {
 
-                                        if(prefManager.isFreshRequest()) {
+
+                                    if (submitAReport) {
+                                        Toast.makeText(mActivity, "There's report to send", Toast.LENGTH_SHORT).show();
+                                        if (prefManager.isFreshRequest()) {
+                                            mPlayer = MediaPlayer.create(Background_Service.this, R.raw.police_alarm);
+                                            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                            assert vibrator != null;
+
+                                            if (!isPlaying) {
+                                                mPlayer.start();
+                                                isPlaying = true;
+                                                mPlayer.setLooping(true);
+                                                vibrator.vibrate(1000);
+
+                                                /*final Handler handler = new Handler();
+                                                handler.postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        // Do something after 5s = 5000ms
+                                                        isPlaying = false;
+                                                    }
+                                                }, 8000);*/
+
+                                            } else {
+                                                mPlayer.stop();
+                                                mPlayer.release();
+                                            }
+                                            // After sounding the alarm, submit details to the database
                                             fetchReportFromDBToSend();  // Check whether there's a report to submit to the internet
                                         }
-
                                         submitAReport = false;  // re-initializing the variable
 
                                     } else {
-//                                        Toast.makeText(mActivity, "Do not submit a report ", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mActivity, "No report to send", Toast.LENGTH_SHORT).show();
                                     }
 
+
+                                    /*
 
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -281,6 +271,10 @@ public class Background_Service extends Service {
                                     }
 
 
+
+                                    */
+
+
                                     db.close();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Permission not granted!", Toast.LENGTH_SHORT).show();
@@ -290,7 +284,8 @@ public class Background_Service extends Service {
                     });
                     try {
 //                        30000  = 30 seconds
-                        Thread.sleep(120000); // 2 min
+                        Thread.sleep(10000); // 2 min
+//                        Thread.sleep(120000); // 2 min
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -316,74 +311,47 @@ public class Background_Service extends Service {
     public void fetchReportFromDBToSend() {
 //        if (!(prefManager.isReportSent())) {
 //                prefManager.setIsReportSent(false);
-            // WE HAVE AN UNSENT REPORT
+        // WE HAVE AN UNSENT REPORT
 
-            if (!(longitude.equalsIgnoreCase(""))) {
-                // If there is a value for the coordinates yet
+        if (!(longitude.equalsIgnoreCase(""))) {
+            // If there is a value for the coordinates yet
 //                    Toast.makeText(Background_Service.this, "Longitude to send", Toast.LENGTH_LONG).show();
-                fetchAllRecoveryDetailsToArrayLists(); // Must be called before using the values of the arraylist (contact recovery details)
+            fetchAllRecoveryDetailsToArrayLists(); // Must be called before using the values of the arraylist (contact recovery details)
 
-                if (!(phoneNumberArrayList.size() < 0)) {
-                    // If the arraylist of contact details is not empty
+            if (!(phoneNumberArrayList.size() < 0)) {
+                // If the arraylist of contact details is not empty
 
-                    // WE SEND OUR REPORT
-                    phoneNumbers = new JSONObject();
-                    emailAddresses = new JSONObject();
+                // WE SEND OUR REPORT
+                phoneNumbers = new JSONObject();
+                emailAddresses = new JSONObject();
 
-                    //Loop through array of contacts and put them to a JSONcontact object
-                    for (int i = 0; i < phoneNumberArrayList.size(); i++) {
-                        try {
-                            phoneNumbers.put("index_" + String.valueOf(i + 1), phoneNumberArrayList.get(i));
-                            emailAddresses.put("index_" + String.valueOf(i + 1), emailArrayList.get(i));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    EverythingJSON = new JSONObject();
+                //Loop through array of contacts and put them to a JSONcontact object
+                for (int i = 0; i < phoneNumberArrayList.size(); i++) {
                     try {
-                        EverythingJSON.put("phoneNumbers", phoneNumbers);
-                        EverythingJSON.put("emailAddress", emailAddresses);
+                        phoneNumbers.put("index_" + String.valueOf(i + 1), phoneNumberArrayList.get(i));
+                        emailAddresses.put("index_" + String.valueOf(i + 1), emailArrayList.get(i));
 
-                    } catch (Exception e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
 
+                EverythingJSON = new JSONObject();
+                try {
+                    EverythingJSON.put("phoneNumbers", phoneNumbers);
+                    EverythingJSON.put("emailAddress", emailAddresses);
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                    mPlayer = MediaPlayer.create(Background_Service.this, R.raw.police_alarm);
-                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    assert vibrator != null;
-
-                    if (!isPlaying) {
-                        mPlayer.start();
-                        isPlaying = true;
-                        vibrator.vibrate(1000);
-
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Do something after 5s = 5000ms
-                                isPlaying = false;
-                            }
-                        }, 8000);
-
-                    } else {
-                        mPlayer.stop();
-                        mPlayer.release();
-                    }
-
-
-
-                    everythingConvertToString = EverythingJSON.toString();
+                everythingConvertToString = EverythingJSON.toString();
 
                     BackGround backWork = new BackGround();
                     backWork.execute(everythingConvertToString, longitude, latitude);
 
-                }
             }
+        }
 //        }
     }
 
@@ -526,6 +494,8 @@ public class Background_Service extends Service {
 
         @Override
         protected void onPostExecute(String s) {
+
+            Toast.makeText(Background_Service.this, s, Toast.LENGTH_LONG).show();
 
             if (s.trim().equalsIgnoreCase("OK")) { // Message sent
 //                prefManager.setIsReportSent(true);
