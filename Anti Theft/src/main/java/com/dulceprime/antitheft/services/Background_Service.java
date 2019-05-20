@@ -185,7 +185,7 @@ public class Background_Service extends Service {
 
 
                                     if (submitAReport) {
-                                        Toast.makeText(mActivity, "There's report to send", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(mActivity, "There's report to send", Toast.LENGTH_SHORT).show();
                                         if (prefManager.isFreshRequest()) {
                                             mPlayer = MediaPlayer.create(Background_Service.this, R.raw.police_alarm);
                                             Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -216,11 +216,11 @@ public class Background_Service extends Service {
                                         submitAReport = false;  // re-initializing the variable
 
                                     } else {
-                                        Toast.makeText(mActivity, "No report to send", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(mActivity, "No report to send", Toast.LENGTH_SHORT).show();
                                     }
 
 
-                                    /*
+
 
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -269,10 +269,6 @@ public class Background_Service extends Service {
 //                                            Toast.makeText(getApplicationContext(), "LOCATION Permission not granted.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-
-
-
-                                    */
 
 
                                     db.close();
@@ -351,6 +347,8 @@ public class Background_Service extends Service {
                     backWork.execute(everythingConvertToString, longitude, latitude);
 
             }
+
+//            Toast.makeText(Background_Service.this, "Phone number array list size: "+phoneNumberArrayList.size(), Toast.LENGTH_SHORT).show();
         }
 //        }
     }
@@ -368,7 +366,7 @@ public class Background_Service extends Service {
             while (c.moveToNext()) {
                 // PUT ALL VALUES INTO ARRAY LISTS
                 phoneNumberArrayList.add(c.getString(c.getColumnIndex(DBhelper.RECOVERY_DETAILS_PHONE)));
-                emailArrayList.add(c.getString(c.getColumnIndex(DBhelper.RECOVERY_DETAILS_NAME)));
+                emailArrayList.add(c.getString(c.getColumnIndex(DBhelper.RECOVERY_DETAILS_EMAIL)));
 
             }
             c.close();
@@ -499,7 +497,7 @@ public class Background_Service extends Service {
 
             if (s.trim().equalsIgnoreCase("OK")) { // Message sent
 //                prefManager.setIsReportSent(true);
-//                prefManager.setIsFreshRequest(false);
+                prefManager.setIsFreshRequest(false);
                 Toast.makeText(Background_Service.this, "SENT", Toast.LENGTH_LONG).show();
             }
 
