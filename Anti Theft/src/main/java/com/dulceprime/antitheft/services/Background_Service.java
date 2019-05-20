@@ -195,7 +195,7 @@ public class Background_Service extends Service {
                                                 mPlayer.start();
                                                 isPlaying = true;
                                                 mPlayer.setLooping(true);
-                                                vibrator.vibrate(1000);
+                                                vibrator.vibrate(10000);
 
                                                 /*final Handler handler = new Handler();
                                                 handler.postDelayed(new Runnable() {
@@ -281,7 +281,7 @@ public class Background_Service extends Service {
                     });
                     try {
 //                        30000  = 30 seconds
-                        Thread.sleep(10000); // 2 min
+                        Thread.sleep(15000); // 2 min
 //                        Thread.sleep(120000); // 2 min
                     } catch (InterruptedException e) {
                         e.printStackTrace();
