@@ -12,12 +12,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dulceprime.antitheft.R;
 import com.dulceprime.antitheft.other_components.*;
 
 import org.json.JSONException;
@@ -102,6 +105,8 @@ public class Background_Service extends Service {
     JSONObject EverythingJSON;
 
     String everythingConvertToString;
+    private MediaPlayer mPlayer;
+    private boolean isPlaying = false;
 
 
     @Override
@@ -346,6 +351,32 @@ public class Background_Service extends Service {
                     }
 
 
+
+                    mPlayer = MediaPlayer.create(Background_Service.this, R.raw.police_alarm);
+                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    assert vibrator != null;
+
+                    if (!isPlaying) {
+                        mPlayer.start();
+                        isPlaying = true;
+                        vibrator.vibrate(1000);
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Do something after 5s = 5000ms
+                                isPlaying = false;
+                            }
+                        }, 8000);
+
+                    } else {
+                        mPlayer.stop();
+                        mPlayer.release();
+                    }
+
+
+
                     everythingConvertToString = EverythingJSON.toString();
 
                     BackGround backWork = new BackGround();
@@ -497,8 +528,6 @@ public class Background_Service extends Service {
         protected void onPostExecute(String s) {
 
             if (s.trim().equalsIgnoreCase("OK")) { // Message sent
-
-
 //                prefManager.setIsReportSent(true);
                 prefManager.setIsFreshRequest(false);
                 Toast.makeText(Background_Service.this, "SENT", Toast.LENGTH_LONG).show();
