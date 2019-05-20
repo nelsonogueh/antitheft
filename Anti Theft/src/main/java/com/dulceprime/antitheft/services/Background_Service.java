@@ -499,7 +499,7 @@ public class Background_Service extends Service {
 
             if (s.trim().equalsIgnoreCase("OK")) { // Message sent
 //                prefManager.setIsReportSent(true);
-                prefManager.setIsFreshRequest(false);
+//                prefManager.setIsFreshRequest(false);
                 Toast.makeText(Background_Service.this, "SENT", Toast.LENGTH_LONG).show();
             }
 
