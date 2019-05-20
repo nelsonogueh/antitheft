@@ -1,0 +1,6 @@
+<root>
+    <item
+        name='android.telephony.SubscriptionManager java.util.List&lt;android.telephony.SubscriptionInfo&gt; getActiveSubscriptionInfoList()'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

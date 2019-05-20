@@ -62,12 +62,6 @@ public class IntroActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mActivity = IntroActivity.this;
 
-        // checking if the permission has been granted for Android 6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkPermission();
-        }
-
-
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
@@ -260,68 +254,6 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
-
-    // REQUEST PERMISSION
-    protected void checkPermission() {
-        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET)
-                != PackageManager.PERMISSION_GRANTED) {
-
-
-            // Do something, when permissions not granted
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_PHONE_STATE) || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.INTERNET)) {
-                // If we should give explanation of requested permissions
-
-                // Show an alert dialog here with request explanation
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
-                builder.setMessage("The permissions enable this app function effectively and accurately.");
-                builder.setTitle("Please grant permissions");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ActivityCompat.requestPermissions(
-                                mActivity,
-                                new String[]{
-                                        Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                                        Manifest.permission.READ_PHONE_STATE,
-                                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                                        Manifest.permission.INTERNET
-                                },
-                                MY_PERMISSIONS_REQUEST_CODE
-                        );
-                    }
-                });
-                builder.setNeutralButton("Cancel", null);
-                android.app.AlertDialog dialog = builder.create();
-                dialog.show();
-            } else {
-                // Directly request for required permissions, without explanation
-                ActivityCompat.requestPermissions(
-                        mActivity,
-                        new String[]{
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.READ_PHONE_STATE,
-                                Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                                Manifest.permission.INTERNET
-                        },
-                        MY_PERMISSIONS_REQUEST_CODE
-                );
-            }
-        } else {
-            prefManager.setIsPermissionGranted(true);
-            // Do something, when permissions are already granted
-//            Toast.makeText(mContext,"Permissions already granted",Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
