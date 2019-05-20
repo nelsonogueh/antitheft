@@ -127,6 +127,13 @@ public class LockActivity extends AppCompatActivity {
 
                 if (oldPin.equalsIgnoreCase(fieldPin)) {
 //                    Toast.makeText(LockActivity.this, "Pin correct", Toast.LENGTH_SHORT).show();
+
+                    // STARTING THE SERVICE THAT DOES THE REAL WORK
+                    stopService(new Intent(getApplicationContext(), Background_Service.class));
+                    Intent activityIntent = new Intent(getApplicationContext(), Background_Service.class);
+                    startService(activityIntent);
+
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -216,6 +223,11 @@ public class LockActivity extends AppCompatActivity {
 //                            Toast.makeText(LockActivity.this, "Could not modify serial number", Toast.LENGTH_SHORT).show();
                         }
 
+
+                        // STARTING THE SERVICE THAT DOES THE REAL WORK
+                        stopService(new Intent(getApplicationContext(), Background_Service.class));
+                        Intent activityIntent = new Intent(getApplicationContext(), Background_Service.class);
+                        startService(activityIntent);
 
                         prefManager.setIsProtected(true); // PROTECTED THE DEVICES
 

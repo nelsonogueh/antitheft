@@ -222,7 +222,8 @@ public class Background_Service extends Service {
 
 
 
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                                             // Access fine location permission granted
 

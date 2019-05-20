@@ -112,12 +112,6 @@ public class IntroActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        // STARTING THE SERVICE THAT DOES THE REAL WORK
-        stopService(new Intent(getApplicationContext(), Background_Service.class));
-        Intent activityIntent = new Intent(getApplicationContext(), Background_Service.class);
-        startService(activityIntent);
-
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
