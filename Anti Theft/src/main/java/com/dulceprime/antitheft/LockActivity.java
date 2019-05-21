@@ -75,10 +75,10 @@ public class LockActivity extends AppCompatActivity {
         prefManager = new PrefManager(this);
 
 
-        // checking if the permission has been granted for Android 6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+       /* // checking if the permission has been granted for Android 6.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             checkPermission();
-        }
+        }*/
 
         unlock_pin_container = (LinearLayout) findViewById(R.id.unlock_pin_container);
         set_new_pin_container = (LinearLayout) findViewById(R.id.set_new_pin_container);
@@ -105,7 +105,6 @@ public class LockActivity extends AppCompatActivity {
                 setNewPIN();
             }
         }
-
 //        Toast.makeText(getApplicationContext(), "Type: "+intent_request_type, Toast.LENGTH_SHORT).show();
     }
 
@@ -198,6 +197,7 @@ public class LockActivity extends AppCompatActivity {
                         new_pin_security_question.setText("");
                         new_pin_security_answer.setText("");
 
+/*
 
                         // UPDATE THE SERIAL NUMBER(S) WHEN THE PROTECTION IS TURNED ON
                         String deviceSerial1 = "";
@@ -222,6 +222,7 @@ public class LockActivity extends AppCompatActivity {
                         } else {
 //                            Toast.makeText(LockActivity.this, "Could not modify serial number", Toast.LENGTH_SHORT).show();
                         }
+*/
 
 
                         // STARTING THE SERVICE THAT DOES THE REAL WORK
