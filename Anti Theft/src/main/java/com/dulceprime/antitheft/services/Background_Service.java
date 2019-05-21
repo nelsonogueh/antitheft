@@ -124,10 +124,6 @@ public class Background_Service extends Service {
         context = getApplicationContext();
         mActivity = Background_Service.this;
 
-
-//        Log.i(TAG, "Service onStartCommand");
-//        Log.i("BOOT THINGS", "BOOT COMPLETE");
-
         //Creating new thread for my service
         //Always write your long running tasks in a separate thread, to avoid ANR
         final Handler handler = new Handler(Looper.getMainLooper());
@@ -142,9 +138,10 @@ public class Background_Service extends Service {
                             //do your stuff here
 //                            Log.d("ECHO ", "SERVICE RUNNING");
 
-//                            Toast.makeText(getApplicationContext(), "BOOT COMPLETED", Toast.LENGTH_SHORT).show();
 
-                            if (prefManager.isProtected()) {
+
+
+                           /* if (prefManager.isProtected()) {
 //                                Log.d("PROTECTION ", "DEVICE PROTECTED");
 
                                 if (prefManager.isPermissionGranted()) {
@@ -197,14 +194,14 @@ public class Background_Service extends Service {
                                                 mPlayer.setLooping(true);
                                                 vibrator.vibrate(10000);
 
-                                                /*final Handler handler = new Handler();
+                                                *//*final Handler handler = new Handler();
                                                 handler.postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         // Do something after 5s = 5000ms
                                                         isPlaying = false;
                                                     }
-                                                }, 8000);*/
+                                                }, 8000);*//*
 
                                             } else {
                                                 mPlayer.stop();
@@ -220,14 +217,10 @@ public class Background_Service extends Service {
                                     }
 
 
-
-
 //                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                                             // Access fine location permission granted
-
-
                                             try {
                                                 locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                                                 listener = new LocationListener() {
@@ -270,13 +263,14 @@ public class Background_Service extends Service {
 //                                            Toast.makeText(getApplicationContext(), "LOCATION Permission not granted.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-
-
                                     db.close();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Permission not granted!", Toast.LENGTH_SHORT).show();
                                 }
-                            }
+                            }*/
+
+
+
                         }
                     });
                     try {
@@ -344,8 +338,8 @@ public class Background_Service extends Service {
 
                 everythingConvertToString = EverythingJSON.toString();
 
-                    BackGround backWork = new BackGround();
-                    backWork.execute(everythingConvertToString, longitude, latitude);
+                BackGround backWork = new BackGround();
+                backWork.execute(everythingConvertToString, longitude, latitude);
 
             }
 
