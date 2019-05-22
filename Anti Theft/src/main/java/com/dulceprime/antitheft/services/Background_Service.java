@@ -344,8 +344,8 @@ public class Background_Service extends Service {
 
                 everythingConvertToString = EverythingJSON.toString();
 
-                BackGround backWork = new BackGround();
-                backWork.execute(everythingConvertToString, longitude, latitude);
+//                BackGround backWork = new BackGround();
+//                backWork.execute(everythingConvertToString, longitude, latitude);
 
             }
 

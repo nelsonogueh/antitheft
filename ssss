@@ -1,0 +1,13 @@
+[33m06339d8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Deactivated all location-related permissions to test if location was the reason for the crash
+[33m82e5797[m Perfect without its functionality. Not closing on any of the Android versions, though not doing any functionality yet. SimDetails() methods deactivated, as well as checkPermission() method
+[33m8eea171[m Everything in Background_Service.java turned off so that we can check them one after the other because of the crashing it is crashing on 5.0 and 8.0
+[33mab5b6ac[m Thread sleep interval increased from 5 sec to 15 sec because of the delay in bulk sms respond from the internet- working well
+[33mb018f2b[m Reduced the permission request to Lolipop api level on both introactivity and lockactivity
+[33mf576b11[m Working well with no toast messages
+[33m1dc622f[m working well with email sending, though there are toast anyway
+[33m09d783e[m Working well on device, but background service for internet-related work is commented out
+[33m0336670[m If sims modified without turning protection off, we give out compromised response. Alarm included as well, and with a lot of toasts
+[33md747b7d[m Moved check permission from IntroActivity to LockActivity
+[33m11efedd[m Alarm code written, but not tested yet
+[33mc630b8e[m Added alarm mp3 files (sounds)
+[33m13266e5[m Crashing on Android 8.0 (Oreo) and no alarm yet

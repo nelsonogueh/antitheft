@@ -74,9 +74,9 @@ public class LockActivity extends AppCompatActivity {
 
 
         // checking if the permission has been granted for Android 6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             checkPermission();
-        }
+        }*/
 
         unlock_pin_container = (LinearLayout) findViewById(R.id.unlock_pin_container);
         set_new_pin_container = (LinearLayout) findViewById(R.id.set_new_pin_container);
@@ -354,20 +354,20 @@ public class LockActivity extends AppCompatActivity {
 
     // REQUEST PERMISSION
     protected void checkPermission() {
-        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE)/*
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (/*ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE)
                 + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET)*/
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET)
+                + */ ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
 
             // Do something, when permissions not granted
-            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_PHONE_STATE)
-                    /*||ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
+            if (/*ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_PHONE_STATE)
                     || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.INTERNET)*/) {
+                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.INTERNET)
+                    ||*/ ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 // If we should give explanation of requested permissions
 
                 // Show an alert dialog here with request explanation
@@ -379,14 +379,14 @@ public class LockActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ActivityCompat.requestPermissions(
                                 mActivity,
-                                new String[]{Manifest.permission.READ_PHONE_STATE,
-                                       /* Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                new String[]{/*Manifest.permission.READ_PHONE_STATE,
                                         Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                                        Manifest.permission.INTERNET*/
+                                        Manifest.permission.INTERNET,*/
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION
                                 },
                                 /*MY_PERMISSIONS_REQUEST_CODE*/
-                                1
+                                12
                         );
                     }
                 });
@@ -397,14 +397,14 @@ public class LockActivity extends AppCompatActivity {
                 // Directly request for required permissions, without explanation
                 ActivityCompat.requestPermissions(
                         mActivity,
-                        new String[]{Manifest.permission.READ_PHONE_STATE,
-                                       /* Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        new String[]{/*Manifest.permission.READ_PHONE_STATE,
                                         Manifest.permission.RECEIVE_BOOT_COMPLETED,
-                                        Manifest.permission.INTERNET*/
+                                        Manifest.permission.INTERNET,*/
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
                         },
                                 /*MY_PERMISSIONS_REQUEST_CODE*/
-                        1
+                        12
                 );
             }
         } else {
