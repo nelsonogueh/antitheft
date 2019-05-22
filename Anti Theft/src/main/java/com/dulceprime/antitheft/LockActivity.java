@@ -57,8 +57,6 @@ public class LockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lock);
 
 
-
-
         db = openOrCreateDatabase(DBhelper.DB_NAME, MODE_PRIVATE, null);
         sqlController = new SQLController(getApplicationContext());
         oldPin = sqlController.fetchExistingLockPassword();
@@ -75,10 +73,10 @@ public class LockActivity extends AppCompatActivity {
         prefManager = new PrefManager(this);
 
 
-       /* // checking if the permission has been granted for Android 6.0
+        // checking if the permission has been granted for Android 6.0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             checkPermission();
-        }*/
+        }
 
         unlock_pin_container = (LinearLayout) findViewById(R.id.unlock_pin_container);
         set_new_pin_container = (LinearLayout) findViewById(R.id.set_new_pin_container);
@@ -163,7 +161,6 @@ public class LockActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // We get the old pin anytime the user clicks on the submit button
                 oldPin = sqlController.fetchExistingLockPassword().trim();
-
 
                 String fieldNewPin = "";
                 String fieldConfirmPin = "";
@@ -357,6 +354,79 @@ public class LockActivity extends AppCompatActivity {
 
     // REQUEST PERMISSION
     protected void checkPermission() {
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE)/*
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET)*/
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+            // Do something, when permissions not granted
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_PHONE_STATE)
+                    /*||ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.INTERNET)*/) {
+                // If we should give explanation of requested permissions
+
+                // Show an alert dialog here with request explanation
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity);
+                builder.setMessage("The permissions enable this app function effectively and accurately.");
+                builder.setTitle("Please grant permissions");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ActivityCompat.requestPermissions(
+                                mActivity,
+                                new String[]{Manifest.permission.READ_PHONE_STATE,
+                                       /* Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                                        Manifest.permission.INTERNET*/
+                                },
+                                /*MY_PERMISSIONS_REQUEST_CODE*/
+                                1
+                        );
+                    }
+                });
+                builder.setNeutralButton("Cancel", null);
+                android.app.AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                // Directly request for required permissions, without explanation
+                ActivityCompat.requestPermissions(
+                        mActivity,
+                        new String[]{Manifest.permission.READ_PHONE_STATE,
+                                       /* Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                                        Manifest.permission.INTERNET*/
+                        },
+                                /*MY_PERMISSIONS_REQUEST_CODE*/
+                        1
+                );
+            }
+        } else {
+            prefManager.setIsPermissionGranted(true);
+            // Do something, when permissions are already granted
+//            Toast.makeText(mContext,"Permissions already granted",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+/*
+    // REQUEST PERMISSION
+    protected void checkPermission() {
         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE)
                 + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
                 + ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -416,6 +486,9 @@ public class LockActivity extends AppCompatActivity {
 //            Toast.makeText(mContext,"Permissions already granted",Toast.LENGTH_SHORT).show();
         }
     }
+
+*/
+
 
 
 

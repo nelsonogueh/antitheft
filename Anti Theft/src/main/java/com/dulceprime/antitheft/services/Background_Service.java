@@ -216,61 +216,67 @@ public class Background_Service extends Service {
 //                                        Toast.makeText(mActivity, "No report to send", Toast.LENGTH_SHORT).show();
                                     }
 
+*/
 
-//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                                            // Access fine location permission granted
-                                            try {
-                                                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                                                listener = new LocationListener() {
-                                                    @Override
-                                                    public void onLocationChanged(Location location) {
+                            /*
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                    // Access fine location permission granted
+                                    try {
+                                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                                        listener = new LocationListener() {
+                                            @Override
+                                            public void onLocationChanged(Location location) {
 //                                            textView.append("n " + location.getLongitude() + " " + location.getLatitude());
-                                                        longitude = location.getLongitude() + "";
-                                                        latitude = location.getLatitude() + "";
+                                                longitude = location.getLongitude() + "";
+                                                latitude = location.getLatitude() + "";
 
 //                                                        Toast.makeText(getApplicationContext(), "Long: " + location.getLongitude() + "\n Lat: " + location.getLatitude(), Toast.LENGTH_SHORT).show();
-                                                    }
-
-                                                    @Override
-                                                    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onProviderEnabled(String s) {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onProviderDisabled(String s) {
-
-                                                        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                                        startActivity(i);
-                                                    }
-                                                };
-
-                                                gpsLocationMethod();
-                                            } catch (Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Exception: " + e.toString(), Toast.LENGTH_SHORT).show();
                                             }
+
+                                            @Override
+                                            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                                            }
+
+                                            @Override
+                                            public void onProviderEnabled(String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onProviderDisabled(String s) {
+
+                                                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                                startActivity(i);
+                                            }
+                                        };
+
+//                                                gpsLocationMethod();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Exception: " + e.toString(), Toast.LENGTH_SHORT).show();
+                                    }
 
 
 //                                            Toast.makeText(getApplicationContext(), "LOCATION Permission granted.", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            // Camera permission not granted
-//                                            Toast.makeText(getApplicationContext(), "LOCATION Permission not granted.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                    db.close();
                                 } else {
+                                    // Camera permission not granted
+//                                            Toast.makeText(getApplicationContext(), "LOCATION Permission not granted.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+
+                            */
+
+                            db.close();
+                               /* } else {
                                     Toast.makeText(getApplicationContext(), "Permission not granted!", Toast.LENGTH_SHORT).show();
                                 }
-                            }*/
+                            }
 
 
-
+*/
                         }
                     });
                     try {
